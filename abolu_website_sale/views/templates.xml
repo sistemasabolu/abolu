@@ -49,7 +49,7 @@
   </template>
 
   <template id="set_ppg_abolu" name="Set Product Per Page">
-    <t t-set="ppg_lst" t-value="[20, 50, 80, 100]" />
+    <t t-set="ppg_lst" t-value="[20, 50, 80, 100, 200, 500]" />
 
     <div t-attf-class="dropdown#{'' if ppg_lst and len(ppg_lst)&gt;1 else ' d-none'} #{_classes}">
       <t t-set="curr_ppg" t-value="'# per Page'" />
@@ -72,6 +72,12 @@
 	<t t-set="_classes">ml-2</t>
       </t>
     </xpath>
+  </template>
+
+   <template id="product_price_abolu" name="Product Price Abolu" inherit_id="website_sale.product_price">
+        <xpath expr="//div[hasclass('product_price')]" position="attributes">
+            <attribute name="t-if">request.session.login and request.session.login != 'public'</attribute>
+        </xpath>
   </template>
 
 </odoo>
