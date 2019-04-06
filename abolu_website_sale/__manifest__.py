@@ -20,6 +20,8 @@ In the Shop page add the controls to define the number of products to show, by d
     'data': [
         'views/payment_acquirer_template.xml',
         'data/payment_acquirer_data.xml',
+        'data/mail_template_data.xml',
         'views/templates.xml',
+        'report/sale_order.xml',
     ],
 }

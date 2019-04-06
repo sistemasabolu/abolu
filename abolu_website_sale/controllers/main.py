@@ -23,10 +23,9 @@ class WebsiteSale(WebsiteSale):
             # post['order'] = 'display_name asc'
         return super(WebsiteSale, self).shop(page, category, search, ppg, **post)
         
-    
-
     def _get_shop_payment_values(self, order, **kwargs):
         values = super(WebsiteSale, self)._get_shop_payment_values(order, **kwargs)
         if not request.session.login or request.session.login == 'public':
+            order.sudo().write({'is_from_new_customer': True})
             values['acquirers'] = [request.env.ref('abolu_website_sale.payment_acquirer_request_quotation')]
         return values
