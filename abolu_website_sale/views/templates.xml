@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="cart_lines_abolu" name="Cart Lines Abolu" inherit_id="website_sale.cart_lines">
+        <xpath expr="//table[@id='cart_products']/thead[1]/tr[1]/th[hasclass('td-price')]" position="attributes">
+            <attribute name="t-if">request.session.login and request.session.login != 'public'</attribute>
+        </xpath>
+	 <xpath expr="//table[@id='cart_products']/tbody[1]/t[1]/tr[1]/td[@name='price']" position="attributes">
+            <attribute name="t-if">request.session.login and request.session.login != 'public'</attribute>
+        </xpath>
+  </template>
+  <template id="total_abolu" inherit_id="website_sale.total">
+	 <xpath expr="//div[@id='cart_total']" position="attributes">
+            <attribute name="t-if">request.session.login and request.session.login != 'public' and website_sale_order and website_sale_order.website_order_line</attribute>
+        </xpath>
+    
+  </template>
+  <!-- this shows on the right when in payment step -->
+  <template id="cart_summary_abolu" inherit_id="website_sale.cart_summary">
+        <xpath expr="//thead[1]/tr[1]/th[hasclass('td-price')]" position="attributes">
+            <attribute name="t-if">request.session.login and request.session.login != 'public'</attribute>
+        </xpath>
+	 <xpath expr="//tbody[1]/tr[1]/td[hasclass('td-price')]" position="attributes">
+            <attribute name="t-if">request.session.login and request.session.login != 'public'</attribute>
+        </xpath>
+  </template>
+
+  <template id="confirmation_abolu" inherit_id="website_sale.confirmation">
+    <xpath expr="//strong[@t-field='order.amount_total']/../../../.." position="attributes">
+        <attribute name="t-if">request.session.login and request.session.login != 'public'</attribute>
+    </xpath>
+  </template>
+
+  <template id="payment_abolu" inherit_id="website_sale.payment">
+
+    <xpath expr="//div[@id='payment_method']/h3" position="replace">
+      <h3 t-if="not request.session.login or request.session.login == 'public'" class="mb24">Proceed to </h3>
+      <h3 t-if="request.session.login and request.session.login != 'public'" class="mb24">Pay with </h3>
+    </xpath>
+    <xpath expr="//div[@id='payment_method']/t/t[@t-set='submit_txt']" position="replace">
+      <t t-set="submit_txt">Proceed</t>
+    </xpath>
+  </template>
+
+  <template id="wizard_checkout_abolu" inherit_id="website_sale.wizard_checkout">
+    <xpath expr="//div[@id='wizard-step40']/div[hasclass('progress-wizard-steplabel')]" position="replace">
+      <div t-if="not request.session.login or request.session.login == 'public'" class="text-center progress-wizard-steplabel">Request Quotation</div>
+      <div t-if="request.session.login and request.session.login != 'public'" class="text-center progress-wizard-steplabel">Confirm Order</div>
+    </xpath>
+  </template>
+
+  <template id="set_ppg_abolu" name="Set Product Per Page">
+    <t t-set="ppg_lst" t-value="[20, 50, 80, 100, 200, 500]" />
+
+    <div t-attf-class="dropdown#{'' if ppg_lst and len(ppg_lst)&gt;1 else ' d-none'} #{_classes}">
+      <t t-set="curr_ppg" t-value="'# per Page'" />
+      <a role="button" href="#" class="dropdown-toggle btn btn-secondary" data-toggle="dropdown">
+	<t t-esc="curr_ppg" />
+      </a>
+      <div class="dropdown-menu" role="menu">
+	<t t-foreach="ppg_lst" t-as="new_ppg">
+	  <a role="menuitem" t-att-href="keep('/shop', ppg=new_ppg)" class="dropdown-item">
+	    <span class="switcher_ppg" t-att-data-ppg="new_ppg" t-esc="new_ppg" />
+	  </a>
+	</t>
+      </div>
+    </div>
+  </template>
+
+  <template id="products_abolu" inherit_id="website_sale.products">
+    <xpath expr="//div[hasclass('products_pager')]/t[@t-call='website.pager']" position="after">
+      <t t-call="abolu_website_sale.set_ppg_abolu">
+	<t t-set="_classes">ml-2</t>
+      </t>
+    </xpath>
+  </template>
+
+   <template id="product_price_abolu" name="Product Price Abolu" inherit_id="website_sale.product_price">
+        <xpath expr="//div[hasclass('product_price')]" position="attributes">
+            <attribute name="t-if">request.session.login and request.session.login != 'public'</attribute>
+        </xpath>
+  </template>
+
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_abolu" name="Product Abolu" inherit_id="website_sale.product">
+        <t t-call="website_sale.product_price" position="attributes">
+            <attribute name="t-if">request.session.login</attribute>
+        </t>
+        <!-- <xpath expr="//a[@id='add_to_cart']" position="attributes"> -->
+        <!--     <attribute name="t-if">request.session.login</attribute> -->
+        <!-- </xpath> -->
+    </template>
+    <!-- <template id="product_quantity_abolu" name="Product Quantity Abolu" inherit_id="website_sale.product_quantity"> -->
+    <!--     <xpath expr="//div[hasclass('oe_website_spinner')]" position="attributes"> -->
+    <!--         <attribute name="t-if">request.session.login</attribute> -->
+    <!--     </xpath> -->
+    <!-- </template> -->
+    <template id="products_item_abolu" name="Product Item Abolu" inherit_id="website_sale.products_item">
+        <xpath expr="//div[hasclass('product_price')]" position="attributes">
+            <attribute name="t-if">request.session.login</attribute>
+        </xpath>
+    </template>
+</odoo>
